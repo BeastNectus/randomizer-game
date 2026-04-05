@@ -116,7 +116,7 @@ function App() {
           </div>
 
           <div className="players-section">
-            <label>PARTY ({players.length}/5) {players.length === 5 ? <span className="meta-tag strict">COMPETITIVE</span> : <span className="meta-tag chaos">UNRATED</span>}</label>
+            <label>PARTY ({players.length}/5) <span className="meta-tag strict">COMPETITIVE</span></label>
             <form className="player-input-row" onSubmit={handleAddPlayer}>
               <input
                 type="text"
