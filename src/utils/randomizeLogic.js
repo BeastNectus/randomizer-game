@@ -1,4 +1,4 @@
-import { valData, valComps } from './data';
+import { valData, valComps, valPistols, valMainWeapons, mcData } from './data';
 
 // Helper function to randomly shuffle an array
 const shuffle = (array) => {
@@ -50,9 +50,13 @@ export const generateRandomization = (mode, players) => {
     for (let i = 0; i < players.length; i++) {
         const player = players[i];
         const role = assignedRoles[i];
+        
+        // Split Weapons
+        const pistolWeapon = valPistols[Math.floor(Math.random() * valPistols.length)];
+        const mainWeapon = valMainWeapons[Math.floor(Math.random() * valMainWeapons.length)];
 
         if (mode === 'Roles') {
-            assignments.push({ player, role, agent: null });
+            assignments.push({ player, role, agent: null, pistolWeapon, mainWeapon });
         } else {
             const agentsInRole = availableAgents[role];
             if (agentsInRole && agentsInRole.length > 0) {
@@ -60,13 +64,21 @@ export const generateRandomization = (mode, players) => {
                 const randomIdx = Math.floor(Math.random() * agentsInRole.length);
                 const agent = agentsInRole.splice(randomIdx, 1)[0]; 
                 
-                assignments.push({ player, role, agent });
+                assignments.push({ player, role, agent, pistolWeapon, mainWeapon });
             } else {
                 // Fallback catch block in case pool empties
-                assignments.push({ player, role, agent: 'Any' });
+                assignments.push({ player, role, agent: 'Any', pistolWeapon, mainWeapon });
             }
         }
     }
 
     return assignments;
+};
+
+export const generateMCRandomization = () => {
+    const commander = mcData.commanders[Math.floor(Math.random() * mcData.commanders.length)];
+    const faction = mcData.factions[Math.floor(Math.random() * mcData.factions.length)];
+    const role = mcData.roles[Math.floor(Math.random() * mcData.roles.length)];
+
+    return { commander, faction, role };
 };

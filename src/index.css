@@ -25,6 +25,30 @@ body, html {
   position: relative;
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--val-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--val-accent);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--val-red);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--val-accent) var(--val-black);
+}
+
 /* Gritty background map effect + Technical Grid */
 body::before {
   content: '';
@@ -265,7 +289,8 @@ input:disabled {
 
 .player-tags {
   display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem;
-  max-height: 90px; overflow-y: auto;
+  max-height: 180px; overflow-y: auto;
+  padding-right: 5px;
 }
 
 .player-tag {
@@ -438,6 +463,71 @@ input:disabled {
 @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 @keyframes slideIn { to { transform: translateX(0); opacity: 1; } }
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+@keyframes rouletteSpin {
+  0% { transform: translateY(0); filter: blur(0px); }
+  25% { transform: translateY(-5px); filter: blur(2px); }
+  50% { transform: translateY(5px); filter: blur(4px); }
+  75% { transform: translateY(-2px); filter: blur(2px); }
+  100% { transform: translateY(0); filter: blur(0px); }
+}
+
+.reel-viewport {
+  width: 100%;
+  max-width: 600px;
+  height: 120px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--val-accent);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+  mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+}
+
+.reel-indicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--val-red);
+  box-shadow: 0 0 10px var(--val-red);
+  z-index: 5;
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.reel-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.reel-item {
+  height: 120px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 2.5rem;
+  color: var(--val-white);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.spinning-card {
+  animation: rouletteSpin 0.15s infinite ease-in-out;
+  border-style: dashed !important;
+  opacity: 0.8;
+}
 
 .delay-0 { animation-delay: 0.05s; }
 .delay-1 { animation-delay: 0.10s; }
